@@ -1,27 +1,24 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-"name": "home-design",
+  "name": "home-design",
   "main": "src/index.js",
   "compatibility_date": "2026-08-27",
 
-  // Top-level / default configuration (deployed when running: npx wrangler deploy)
+  // Default / root environment variables
   "vars": {
     "ENVIRONMENT": "production"
   },
 
-  // Named environment overrides
+  // Named environments
   "env": {
-    // Deployed when running: npx wrangler deploy --env staging
     "staging": {
-      "name": "my-worker-staging",
+      "name": "home-design-staging",
       "vars": {
         "ENVIRONMENT": "staging"
       }
     },
-
-    // Deployed when running: npx wrangler deploy --env production
     "production": {
-      "name": "my-worker-production",
+      "name": "home-design",
       "vars": {
         "ENVIRONMENT": "production"
       }
