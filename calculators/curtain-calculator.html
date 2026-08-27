@@ -27,18 +27,16 @@
   }
   .hero-inner { max-width: 1100px; margin: 0 auto; }
   .back-link {
-    color: #dfe8d3;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  .badge {
     display: inline-block;
+    color: white;
     background: rgba(255,255,255,0.15);
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    margin: 0.75rem 0 0.5rem;
+    border: 1px solid rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
   }
+  .back-link:hover { background: rgba(255,255,255,0.25); }
   .hero h1 { margin: 0.25rem 0; font-size: 2rem; }
   .hero p { margin: 0; color: #e4e9dc; max-width: 520px; }
 
@@ -191,9 +189,8 @@
 
   <div class="hero">
     <div class="hero-inner">
-      <a href="../index.html" class="back-link">← Back to Biophilia Pro Studio</a>
-      <div class="badge">🪟 Home Design Tool</div>
-      <h1>Curtain Fit Calculator</h1>
+      <a href="../../index.html" class="back-link">← Back to Home Design Calculators</a>
+      <h1 style="margin-top: 1rem;">Curtain Fit Calculator</h1>
       <p>Instant width and length calculation for the perfect curtain fit — no guesswork, just accurate sizing.</p>
     </div>
   </div>
@@ -288,7 +285,6 @@
     <div class="cta-buttons">
       <button class="btn btn-primary" onclick="shareResults()">↗ Share My Curtain Size</button>
       <button class="btn btn-outline" onclick="window.print()">🖨 Save / Print Results</button>
-      <a href="../index.html" class="btn btn-accent">🏡 More Home Design Tools</a>
     </div>
   </div>
 
