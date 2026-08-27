@@ -1,0 +1,20 @@
+name = "my-worker"
+main = "src/index.ts"
+compatibility_date = "2026-08-27"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+API_HOST = "https://api.example.com"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "xxx_kv_id_xxx"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "prod-db"
+database_id = "xxx_d1_id_xxx"
+
+[env.staging]
+name = "my-worker-staging"
+vars = { API_HOST = "https://staging-api.example.com" }
