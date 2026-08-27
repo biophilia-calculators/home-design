@@ -1,21 +1,33 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "my-worker",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "compatibility_date": "2026-08-27",
-
-  // Environment variables
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "vars": {
-    "ENVIRONMENT": "production"
+    "API_HOST": "https://api.example.com"
   },
-
-  // KV Namespaces (optional)
-  // "kv_namespaces": [
-  //   { "binding": "MY_KV", "id": "your-kv-namespace-id" }
-  // ],
-
-  // D1 Databases (optional)
-  // "d1_databases": [
-  //   { "binding": "DB", "database_name": "my-db", "database_id": "your-d1-id" }
-  // ]
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "xxx_kv_id_xxx"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "prod-db",
+      "database_id": "xxx_d1_id_xxx"
+    }
+  ],
+  "env": {
+    "staging": {
+      "name": "my-worker-staging",
+      "vars": {
+        "API_HOST": "https://staging-api.example.com"
+      }
+    }
+  }
 }
