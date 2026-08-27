@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biophilia Pro Studio</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+
+  <style>
+    /* Custom adjustments for logo and spacing */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 100px;
+      width: 100px;
+      object-fit: contain;
+    }
+
+    .announcement-box {
+      border-left: 4px solid var(--pico-primary);
+      background-color: var(--pico-card-background-color);
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .benefits-section {
+      background-color: var(--pico-card-background-color);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .benefit-item h5 {
+      margin-bottom: 0.25rem;
+    }
+
+    .benefit-item p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--pico-muted-color);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .calc-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .calc-card button, .calc-card a[role="button"] {
+      margin-top: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="container">
+    <nav>
+      <ul>
+        <li>
+          <div class="logo-container">
+            <img src="assets/logo.png" alt="Biophilia Pro Studio logo" class="logo-img" />
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li><a href="#calculators">Tools</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScnVFDfidpHFfB2r9SP7MgP28yuOzrmKyrQ_N6gh8obXeTtAw/viewform?usp=sharing&ouid=117770384326424080228" target="_blank" role="button" class="outline">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <section id="updates">
+      <div class="announcement-box">
+        <h4 style="margin-bottom: 0.25rem;">📢 Latest Updates</h4>
+        <p style="margin: 0; font-size: 0.95rem;">
+          <strong>August 2026:</strong> Added the new Flooring & Tiles Calculator! All calculators updated with new material pricing algorithms.
+        </p>
+      </div>
+    </section>
+
+    <section style="text-align: center; margin-bottom: 2rem;">
+      <h1>Home Design & Material Calculators</h1>
+      <p>Select a specialized tool below to calculate dimensions, material quantities, and coverage for your home design projects.</p>
+    </section>
+
+    <section class="benefits-section">
+      <h3 style="text-align: center;">Why Use Our Calculators?</h3>
+      <p style="text-align: center; max-width: 640px; margin: 0 auto; color: var(--pico-muted-color);">
+        Planning a home design project shouldn't mean guesswork. Our free calculators help you get accurate estimates in seconds, so you can shop smarter and avoid costly over- or under-buying.
+      </p>
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <h5>✅ Save Money</h5>
+          <p>Buy exactly what you need with accurate material and quantity estimates.</p>
+        </div>
+        <div class="benefit-item">
+          <h5>⏱️ Save Time</h5>
+          <p>Skip manual math and get instant results for any room size.</p>
+        </div>
+        <div class="benefit-item">
+          <h5>📐 Reduce Waste</h5>
+          <p>Right-sized estimates mean less leftover material and fewer trips to the store.</p>
+        </div>
+        <div class="benefit-item">
+          <h5>🎯 Plan with Confidence</h5>
+          <p>Make design decisions backed by real numbers, not rough guesses.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculators">
+      <div class="calculator-grid">
+
+        <article class="calc-card">
+          <div>
+            <h3>Curtain Fit Calculator</h3>
+            <p>Calculate the right curtain width, length, and fabric quantity for any window size.</p>
+          </div>
+          <a href="calculators/curtain-calculator.html" target="_blank" role="button">Launch Calculator</a>
+        </article>
+
+        <article class="calc-card">
+          <div>
+            <h3>Wall Paint Calculator</h3>
+            <p>Calculate square footage and total gallons of paint required for your walls and ceilings.</p>
+          </div>
+          <a href="calculators/paint-calculator.html" target="_blank" role="button">Launch Calculator</a>
+        </article>
+
+        <article class="calc-card">
+          <div>
+            <h3>Wallpaper Calculator</h3>
+            <p>Estimate the number of wallpaper rolls needed based on room dimensions and pattern repeat.</p>
+          </div>
+          <a href="calculators/wallpaper-calculator.html" target="_blank" role="button" class="secondary">Launch Calculator</a>
+        </article>
+
+        <article class="calc-card">
+          <div>
+            <h3>Flooring & Tiles Calculator</h3>
+            <p>Estimate total box quantities including waste percentage allowances for any room.</p>
+          </div>
+          <a href="calculators/flooring-calculator.html" target="_blank" role="button" class="secondary">Launch Calculator</a>
+        </article>
+
+        <article class="calc-card">
+          <div>
+            <h3>Lighting Fixtures Calculator</h3>
+            <p>Determine the ideal number and placement of light fixtures based on room size and lumens needed.</p>
+          </div>
+          <a href="calculators/lighting-calculator.html" target="_blank" role="button" class="secondary">Launch Calculator</a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container" style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--pico-muted-border-color);">
+    <small>&copy; 2026 Biophilia Pro Studio. All rights reserved.</small>
+  </footer>
+
+</body>
+</html>
