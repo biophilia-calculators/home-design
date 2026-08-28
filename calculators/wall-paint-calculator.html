@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wall Paint Calculator | Biophilia Pro Studio</title>
+<style>
+  :root {
+    --brand-dark: #3b4a2f;
+    --brand: #5b7345;
+    --brand-light: #eef1e7;
+    --accent: #b99a4b;
+    --card-bg: #ffffff;
+    --text-muted: #6b7280;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f7f8f4;
+    color: #222;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+    color: white;
+    padding: 2.5rem 1.5rem 3rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .back-link {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+  .back-link:hover {
+    background: rgba(255,255,255,0.25);
+  }
+  .hero h1 { margin: 0.75rem 0 0.25rem; font-size: 2rem; }
+  .hero p { margin: 0; color: #e4e9dc; max-width: 520px; }
+
+  .how-to-wrap {
+    max-width: 1100px;
+    margin: -1.5rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .how-to-card {
+    border-left: 4px solid var(--accent);
+  }
+  .how-to-list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+    color: #222;
+  }
+  .how-to-list li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+  .how-to-list li:last-child { margin-bottom: 0; }
+  .how-to-list strong { color: var(--brand-dark); }
+
+  .layout {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    color: var(--brand-dark);
+    font-size: 1.15rem;
+    margin-top: 0;
+  }
+  .card h3 {
+    font-size: 0.95rem;
+    color: var(--brand-dark);
+    margin: 1.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card h3:first-of-type { margin-top: 0.5rem; }
+  .section-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+  input[type="number"], select {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #d7dbcd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.6rem;
+    align-items: end;
+    margin-bottom: 0.6rem;
+  }
+  .field-row.no-remove {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .remove-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d7dbcd;
+    background: white;
+    border-radius: 8px;
+    color: #b04a4a;
+    font-size: 0.95rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .remove-btn:hover { background: #fbeaea; }
+
+  .add-link {
+    background: none;
+    border: none;
+    color: var(--brand);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+  }
+  .add-link:hover { color: var(--brand-dark); }
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--brand-dark);
+    margin-top: 0.25rem;
+  }
+  .checkbox-row input { width: auto; }
+
+  .toggle-row {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .toggle-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .toggle-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .toggle-row.cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+  .toggle-btn {
+    padding: 0.6rem 0.4rem;
+    border: 1px solid #d7dbcd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.82rem;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .toggle-btn small { display: block; color: var(--text-muted); font-size: 0.68rem; }
+  .toggle-btn.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+  }
+  .toggle-btn.active small { color: #e4e9dc; }
+
+  .custom-coverage-field { margin-bottom: 1rem; display: none; }
+  .custom-coverage-field.show { display: block; }
+
+  .result-box {
+    background: var(--brand);
+    color: white;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .result-box.secondary {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+  }
+  .result-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    margin-bottom: 0.2rem;
+  }
+  .result-value { font-size: 1.4rem; font-weight: 700; }
+
+  .tip-box {
+    border: 1px solid #e2e6d8;
+    background: var(--brand-light);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--brand-dark);
+    margin-bottom: 0;
+  }
+
+  .error-box {
+    border: 1px solid #e6b8b8;
+    background: #fbeaea;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.82rem;
+    color: #8a2e2e;
+    margin-bottom: 0.75rem;
+    display: none;
+  }
+  .error-box.show { display: block; }
+
+  .preview-wrap { text-align: center; }
+  svg { max-width: 100%; }
+
+  .cta-section {
+    background: var(--brand-light);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+  .cta-section h2 { color: var(--brand-dark); margin-bottom: 0.25rem; }
+  .cta-section p { color: var(--text-muted); max-width: 480px; margin: 0 auto 1.5rem; }
+  .cta-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-outline { background: white; border: 1px solid var(--brand); color: var(--brand-dark); }
+  .btn-accent { background: var(--accent); color: white; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <a href="../index.html" class="back-link">← Back to Home Design Calculators</a>
+      <h1>Wall Paint Calculator</h1>
+      <p>Work out exactly how much paint you need — walls, doors, windows and coats all accounted for.</p>
+    </div>
+  </div>
+
+  <div class="how-to-wrap">
+    <div class="card how-to-card">
+      <h2>How to Use This Calculator</h2>
+      <ol class="how-to-list">
+        <li><strong>Add each wall</strong> — enter the length and height in centimetres for every wall you're painting. Include the ceiling too, if needed.</li>
+        <li><strong>Add doors and windows</strong> — these are deducted automatically from your total paintable area.</li>
+        <li><strong>Choose your paint type</strong> — coverage rates vary, so pick the closest match or set a custom rate.</li>
+        <li><strong>Set coats and tin size</strong> — 2 coats is recommended for most jobs.</li>
+        <li><strong>Read your results</strong> — total litres needed and tins to buy update instantly on the right.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: Configuration -->
+    <div class="card">
+      <h2>Configure Your Paint Job</h2>
+
+      <h3>🎨 Wall Dimensions
+        <button type="button" class="add-link" id="addWallBtn">+ Add wall</button>
+      </h3>
+      <div id="wallsContainer"></div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="includeCeiling" />
+        <label for="includeCeiling" style="margin:0;">Include ceiling (uses Wall 1 × Wall 2 length as room footprint)</label>
+      </div>
+
+      <h3>🚪 Doors <span class="section-note">deducted from area</span>
+        <button type="button" class="add-link" id="addDoorBtn">+ Add door</button>
+      </h3>
+      <div id="doorsContainer"></div>
+
+      <h3>🪟 Windows <span class="section-note">deducted from area</span>
+        <button type="button" class="add-link" id="addWindowBtn">+ Add window</button>
+      </h3>
+      <div id="windowsContainer"></div>
+
+      <h3>🪣 Paint Type</h3>
+      <div class="toggle-row cols-3" id="paintTypeToggle">
+        <button type="button" class="toggle-btn active" data-coverage="10">Matte<small>10 m²/L</small></button>
+        <button type="button" class="toggle-btn" data-coverage="12">Eggshell<small>12 m²/L</small></button>
+        <button type="button" class="toggle-btn" data-coverage="14">Gloss<small>14 m²/L</small></button>
+        <button type="button" class="toggle-btn" data-coverage="6">Masonry<small>6 m²/L</small></button>
+        <button type="button" class="toggle-btn" data-coverage="10">Primer<small>10 m²/L</small></button>
+        <button type="button" class="toggle-btn" data-custom="true">Custom<small>set rate</small></button>
+      </div>
+      <div class="custom-coverage-field" id="customCoverageField">
+        <label for="customCoverage">Custom Coverage (m² per litre)</label>
+        <input type="number" id="customCoverage" placeholder="e.g. 11" min="1" />
+      </div>
+
+      <h3>🧴 Coats &amp; Tin Size</h3>
+      <label>Number of Coats</label>
+      <div class="toggle-row cols-3" id="coatsToggle">
+        <button type="button" class="toggle-btn" data-value="1">1 coat</button>
+        <button type="button" class="toggle-btn active" data-value="2">2 coats</button>
+        <button type="button" class="toggle-btn" data-value="3">3 coats</button>
+      </div>
+
+      <label>Tin Size to Buy (litres)</label>
+      <div class="toggle-row cols-5" id="tinSizeToggle">
+        <button type="button" class="toggle-btn" data-value="0.5">0.5L</button>
+        <button type="button" class="toggle-btn" data-value="1">1L</button>
+        <button type="button" class="toggle-btn active" data-value="2.5">2.5L</button>
+        <button type="button" class="toggle-btn" data-value="5">5L</button>
+        <button type="button" class="toggle-btn" data-value="10">10L</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h2>Your Paint Requirements</h2>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:-0.75rem;">Updates instantly as you adjust settings.</p>
+
+        <div class="error-box" id="errorBox">Add at least one wall with valid dimensions to see your results.</div>
+
+        <div class="result-box">
+          <div class="result-label">Tins to Buy</div>
+          <div class="result-value" id="tinsNeeded">– tins</div>
+        </div>
+        <div class="result-box secondary">
+          <div class="result-label">Paint Needed</div>
+          <div class="result-value" id="litresNeeded">– L</div>
+        </div>
+        <div class="result-box secondary">
+          <div class="result-label">Net Paintable Area</div>
+          <div class="result-value" id="netArea">– m²</div>
+        </div>
+
+        <div class="tip-box" id="areaTip">
+          💡 Area shown is after deducting doors and windows, multiplied by your chosen number of coats.
+        </div>
+      </div>
+
+      <div class="card preview-wrap">
+        <h2 style="text-align:left;">Area Breakdown</h2>
+        <svg id="previewSvg" viewBox="0 0 220 160"></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to Buy?</h2>
+    <p>Use your calculated paint amount when placing your order. Save or share your results below.</p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" onclick="shareResults()">↗ Share My Paint Amount</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨 Save / Print Results</button>
+      <a href="../index.html" class="btn btn-accent">🏡 More Home Design Tools</a>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Biophilia Pro Studio. All rights reserved.</footer>
+
+<script>
+  const state = { coverage: 10, customCoverage: false, coats: 2, tinSize: 2.5 };
+  let wallCount = 0, doorCount = 0, windowCount = 0;
+
+  function makeRow(container, idPrefix, count, labelA, labelB, defaults, removable = true) {
+    const row = document.createElement('div');
+    row.className = 'field-row' + (removable ? '' : ' no-remove');
+    row.dataset.id = count;
+    row.innerHTML = `
+      <div>
+        <label>${labelA} ${removable ? '' : ''}</label>
+        <input type="number" class="len-input" placeholder="e.g. ${defaults[0]}" min="0" value="${defaults[2] || ''}" />
+      </div>
+      <div>
+        <label>${labelB}</label>
+        <input type="number" class="hgt-input" placeholder="e.g. ${defaults[1]}" min="0" value="${defaults[3] || ''}" />
+      </div>
+      ${removable ? `<button type="button" class="remove-btn" title="Remove">✕</button>` : `<span></span>`}
+    `;
+    container.appendChild(row);
+    row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', calculate));
+    const removeBtn = row.querySelector('.remove-btn');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => {
+        row.remove();
+        calculate();
+      });
+    }
+  }
+
+  function addWall(l, h) {
+    wallCount++;
+    makeRow(document.getElementById('wallsContainer'), 'wall', wallCount,
+      `Wall ${wallCount} — Length (cm)`, `Height (cm)`, [400, 250, l, h], wallCount > 1);
+  }
+  function addDoor(w, h) {
+    doorCount++;
+    makeRow(document.getElementById('doorsContainer'), 'door', doorCount,
+      `Door ${doorCount} — Width (cm)`, `Height (cm)`, [90, 200, w, h], true);
+  }
+  function addWindow(w, h) {
+    windowCount++;
+    makeRow(document.getElementById('windowsContainer'), 'window', windowCount,
+      `Window ${windowCount} — Width (cm)`, `Height (cm)`, [120, 100, w, h], true);
+  }
+
+  document.getElementById('addWallBtn').addEventListener('click', () => { addWall(); calculate(); });
+  document.getElementById('addDoorBtn').addEventListener('click', () => { addDoor(); calculate(); });
+  document.getElementById('addWindowBtn').addEventListener('click', () => { addWindow(); calculate(); });
+  document.getElementById('includeCeiling').addEventListener('change', calculate);
+
+  function setupToggle(groupId, onSelect) {
+    const group = document.getElementById(groupId);
+    group.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        onSelect(btn);
+        calculate();
+      });
+    });
+  }
+
+  setupToggle('paintTypeToggle', (btn) => {
+    if (btn.dataset.custom) {
+      state.customCoverage = true;
+      document.getElementById('customCoverageField').classList.add('show');
+    } else {
+      state.customCoverage = false;
+      state.coverage = parseFloat(btn.dataset.coverage);
+      document.getElementById('customCoverageField').classList.remove('show');
+    }
+  });
+  document.getElementById('customCoverage').addEventListener('input', calculate);
+
+  setupToggle('coatsToggle', (btn) => { state.coats = parseFloat(btn.dataset.value); });
+  setupToggle('tinSizeToggle', (btn) => { state.tinSize = parseFloat(btn.dataset.value); });
+
+  function sumArea(container) {
+    let total = 0;
+    let count = 0;
+    container.querySelectorAll('.field-row').forEach(row => {
+      const l = parseFloat(row.querySelector('.len-input').value) || 0;
+      const h = parseFloat(row.querySelector('.hgt-input').value) || 0;
+      if (l > 0 && h > 0) {
+        total += (l / 100) * (h / 100);
+        count++;
+      }
+    });
+    return { area: total, count };
+  }
+
+  function calculate() {
+    const wallsContainer = document.getElementById('wallsContainer');
+    const doorsContainer = document.getElementById('doorsContainer');
+    const windowsContainer = document.getElementById('windowsContainer');
+
+    const walls = sumArea(wallsContainer);
+    const doors = sumArea(doorsContainer);
+    const windows = sumArea(windowsContainer);
+
+    let ceilingArea = 0;
+    const includeCeiling = document.getElementById('includeCeiling').checked;
+    if (includeCeiling) {
+      const rows = wallsContainer.querySelectorAll('.field-row');
+      if (rows.length >= 2) {
+        const l1 = parseFloat(rows[0].querySelector('.len-input').value) || 0;
+        const l2 = parseFloat(rows[1].querySelector('.len-input').value) || 0;
+        ceilingArea = (l1 / 100) * (l2 / 100);
+      }
+    }
+
+    const errorBox = document.getElementById('errorBox');
+    if (walls.count === 0) {
+      errorBox.classList.add('show');
+      document.getElementById('tinsNeeded').textContent = '– tins';
+      document.getElementById('litresNeeded').textContent = '– L';
+      document.getElementById('netArea').textContent = '– m²';
+      drawPreview(0, 0, 0, 0);
+      return;
+    }
+    errorBox.classList.remove('show');
+
+    const grossArea = walls.area + ceilingArea;
+    const netArea = Math.max(grossArea - doors.area - windows.area, 0);
+    const coverage = state.customCoverage
+      ? (parseFloat(document.getElementById('customCoverage').value) || 10)
+      : state.coverage;
+
+    const litresNeeded = (netArea * state.coats) / coverage;
+    const tinsNeeded = Math.ceil(litresNeeded / state.tinSize);
+
+    document.getElementById('netArea').textContent = netArea.toFixed(2) + ' m²';
+    document.getElementById('litresNeeded').textContent = litresNeeded.toFixed(2) + ' L';
+    document.getElementById('tinsNeeded').textContent = tinsNeeded + (tinsNeeded === 1 ? ' tin' : ' tins');
+
+    document.getElementById('areaTip').textContent =
+      `💡 ${grossArea.toFixed(2)} m² of wall${ceilingArea ? ' + ceiling' : ''}, minus ${(doors.area + windows.area).toFixed(2)} m² for doors/windows, × ${state.coats} coat${state.coats > 1 ? 's' : ''} ÷ ${coverage} m²/L coverage.`;
+
+    drawPreview(grossArea, doors.area, windows.area, netArea);
+  }
+
+  function drawPreview(gross, doorsArea, windowsArea, net) {
+    const svg = document.getElementById('previewSvg');
+    if (gross <= 0) {
+      svg.innerHTML = `<text x="110" y="80" text-anchor="middle" font-size="10" fill="#6b7280">Add walls to preview</text>`;
+      return;
+    }
+    const total = gross || 1;
+    const netPct = Math.max(net / total, 0);
+    const doorsPct = doorsArea / total;
+    const windowsPct = windowsArea / total;
+
+    const barX = 20, barY = 60, barW = 180, barH = 30;
+    let x = barX;
+    const netW = barW * netPct;
+    const doorsW = barW * doorsPct;
+    const windowsW = barW * windowsPct;
+
+    let bars = `<rect x="${barX}" y="${barY}" width="${barW}" height="${barH}" rx="4" fill="#eef1e7" stroke="#d7dbcd"/>`;
+    bars += `<rect x="${x}" y="${barY}" width="${netW}" height="${barH}" rx="4" fill="#5b7345"/>`;
+    x += netW;
+    bars += `<rect x="${x}" y="${barY}" width="${doorsW}" height="${barH}" fill="#b99a4b"/>`;
+    x += doorsW;
+    bars += `<rect x="${x}" y="${barY}" width="${windowsW}" height="${barH}" fill="#8fa980"/>`;
+
+    bars += `<text x="110" y="${barY - 10}" text-anchor="middle" font-size="9" fill="#3b4a2f">Paintable area breakdown</text>`;
+
+    const legendY = barY + barH + 20;
+    bars += `<rect x="20" y="${legendY}" width="10" height="10" fill="#5b7345"/><text x="34" y="${legendY+9}" font-size="8" fill="#222">Net paintable (${net.toFixed(1)} m²)</text>`;
+    bars += `<rect x="20" y="${legendY+16}" width="10" height="10" fill="#b99a4b"/><text x="34" y="${legendY+25}" font-size="8" fill="#222">Doors (${doorsArea.toFixed(1)} m²)</text>`;
+    bars += `<rect x="20" y="${legendY+32}" width="10" height="10" fill="#8fa980"/><text x="34" y="${legendY+41}" font-size="8" fill="#222">Windows (${windowsArea.toFixed(1)} m²)</text>`;
+
+    svg.innerHTML = bars;
+  }
+
+  function shareResults() {
+    const text = `My wall paint needs: ${document.getElementById('litresNeeded').textContent} (${document.getElementById('tinsNeeded').textContent}) — calculated with Biophilia Pro Studio's Wall Paint Calculator.`;
+    if (navigator.share) {
+      navigator.share({ title: 'My Paint Amount', text: text });
+    } else {
+      navigator.clipboard.writeText(text).then(() => alert('Results copied to clipboard!'));
+    }
+  }
+
+  // Initial state: 2 walls pre-filled, matching the reference layout
+  addWall(400, 250);
+  addWall(400, 250);
+  addDoor(90, 200);
+  addWindow(120, 100);
+  calculate();
+</script>
+
+</body>
+</html>
