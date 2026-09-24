@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fitted Carpet Calculator | Biophilia Pro Studio</title>
+<style>
+  :root {
+    --brand-dark: #3b4a2f;
+    --brand: #5b7345;
+    --brand-light: #eef1e7;
+    --accent: #b99a4b;
+    --card-bg: #ffffff;
+    --text-muted: #6b7280;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f7f8f4;
+    color: #222;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+    color: white;
+    padding: 2.5rem 1.5rem 3rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .back-link {
+    display: inline-block;
+    color: white;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
+  .back-link:hover { background: rgba(255,255,255,0.25); }
+  .hero h1 { margin: 1rem 0 0.25rem; font-size: 2rem; }
+  .hero p { margin: 0; color: #e4e9dc; max-width: 560px; }
+
+  .layout {
+    max-width: 1100px;
+    margin: -1.5rem auto 0;
+    padding: 0 1.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    color: var(--brand-dark);
+    font-size: 1.15rem;
+    margin-top: 0;
+  }
+  .card h3 {
+    font-size: 0.95rem;
+    color: var(--brand-dark);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .card h3:first-of-type { margin-top: 0.5rem; }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+  input[type="number"], select {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #d7dbcd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .toggle-row {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .toggle-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .toggle-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .toggle-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .toggle-btn {
+    padding: 0.6rem 0.5rem;
+    border: 1px solid #d7dbcd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .toggle-btn small { display: block; color: var(--text-muted); font-size: 0.72rem; }
+  .toggle-btn.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+  }
+  .toggle-btn.active small { color: #e4e9dc; }
+
+  .custom-width-field { margin-bottom: 1rem; display: none; }
+
+  .result-box {
+    background: var(--brand);
+    color: white;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .result-box.secondary {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+  }
+  .result-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    margin-bottom: 0.2rem;
+  }
+  .result-value { font-size: 1.4rem; font-weight: 700; }
+  .result-sub { font-size: 0.75rem; opacity: 0.85; margin-top: 0.15rem; }
+
+  .tip-box {
+    border: 1px solid #e2e6d8;
+    background: var(--brand-light);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--brand-dark);
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-section {
+    background: var(--brand-light);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+  .cta-section h2 { color: var(--brand-dark); margin-bottom: 0.25rem; }
+  .cta-section p { color: var(--text-muted); max-width: 480px; margin: 0 auto 1.5rem; }
+  .cta-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-outline { background: white; border: 1px solid var(--brand); color: var(--brand-dark); }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <a href="../index.html" class="back-link">← Back to Home Design Calculators</a>
+      <h1>Fitted Carpet Calculator</h1>
+      <p>Work out how much fitted carpet you need based on your room area and standard roll widths — no guesswork, no waste.</p>
+    </div>
+  </div>
+
+  <div class="layout" style="grid-template-columns: 1fr; margin-bottom: 0; padding-bottom: 0;">
+    <div class="card">
+      <h2>How to Use This Calculator</h2>
+      <ol style="padding-left: 1.2rem; color: #444; line-height: 1.7;">
+        <li><strong>Choose your unit</strong> — Square Meters or Square Feet.</li>
+        <li><strong>Enter your room's length and width</strong> in that unit.</li>
+        <li><strong>Select your carpet roll width</strong> — most carpets come in 3.66m, 4m, or 5m rolls, or enter a custom width.</li>
+        <li><strong>Set a waste allowance</strong> to account for pattern matching, seams, and offcuts (15% is a safe default for most rooms).</li>
+        <li><strong>Read your results</strong> instantly — total room area, carpet length needed, and total carpet area including waste.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: Configuration -->
+    <div class="card">
+      <h2>Configure Your Carpet</h2>
+
+      <h3>📐 Measurement Unit</h3>
+      <div class="toggle-row cols-2" id="unitToggle">
+        <button type="button" class="toggle-btn active" data-value="m">Square Meters</button>
+        <button type="button" class="toggle-btn" data-value="ft">Square Feet</button>
+      </div>
+
+      <h3>🏠 Room Dimensions</h3>
+      <div class="field-row">
+        <div>
+          <label id="lengthLabel" for="roomLength">Room Length (m)</label>
+          <input type="number" id="roomLength" value="5" min="0" step="0.1" />
+        </div>
+        <div>
+          <label id="widthLabel" for="roomWidth">Room Width (m)</label>
+          <input type="number" id="roomWidth" value="4" min="0" step="0.1" />
+        </div>
+      </div>
+
+      <h3>🧵 Carpet Roll Width</h3>
+      <div class="toggle-row cols-4" id="rollToggle">
+        <button type="button" class="toggle-btn" data-value="3.66">3.66 m<small>12 ft</small></button>
+        <button type="button" class="toggle-btn active" data-value="4">4 m</button>
+        <button type="button" class="toggle-btn" data-value="5">5 m</button>
+        <button type="button" class="toggle-btn" data-value="custom">Custom</button>
+      </div>
+      <div class="custom-width-field" id="customWidthField">
+        <label for="customWidth">Custom Roll Width (m)</label>
+        <input type="number" id="customWidth" value="4" min="0.1" step="0.01" />
+      </div>
+
+      <h3>♻️ Waste Allowance</h3>
+      <div class="toggle-row cols-3" id="wasteToggle">
+        <button type="button" class="toggle-btn" data-value="10">10%<small>Simple room</small></button>
+        <button type="button" class="toggle-btn active" data-value="15">15%<small>Standard</small></button>
+        <button type="button" class="toggle-btn" data-value="20">20%<small>Pattern match</small></button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card">
+        <h2>Your Carpet Estimate</h2>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:-0.75rem;">Updates instantly as you adjust settings.</p>
+
+        <div class="result-box">
+          <div class="result-label">Total Room Area</div>
+          <div class="result-value" id="roomAreaMain">20.0 m²</div>
+          <div class="result-sub" id="roomAreaSub">≈ 215.3 ft²</div>
+        </div>
+        <div class="result-box secondary">
+          <div class="result-label">Area Needed (with waste)</div>
+          <div class="result-value" id="areaWithWaste">23.0 m²</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Carpet Length Needed</div>
+          <div class="result-value" id="carpetLength">5.8 linear m</div>
+          <div class="result-sub">at <span id="rollWidthDisplay">4 m</span> roll width</div>
+        </div>
+        <div class="result-box secondary">
+          <div class="result-label">Total in Square Yards</div>
+          <div class="result-value" id="squareYards">27.5 yd²</div>
+        </div>
+
+        <div class="tip-box">
+          💡 For rooms wider than your carpet roll, extra seaming may be needed — a flooring installer can confirm exact seam placement.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to Order?</h2>
+    <p>Use your calculated measurements when ordering fitted carpet. Save or share your results below.</p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" onclick="shareResults()">↗ Share My Results</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨 Save / Print Results</button>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Biophilia Pro Studio. All rights reserved.</footer>
+
+<script>
+  const state = { unit: 'm', roll: 4, waste: 15 };
+
+  function setupToggle(groupId, key, onChange) {
+    const group = document.getElementById(groupId);
+    group.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state[key] = isNaN(btn.dataset.value) ? btn.dataset.value : parseFloat(btn.dataset.value);
+        onChange();
+        calculate();
+      });
+    });
+  }
+
+  setupToggle('unitToggle', 'unit', () => {
+    const isMetric = state.unit === 'm';
+    document.getElementById('lengthLabel').textContent = isMetric ? 'Room Length (m)' : 'Room Length (ft)';
+    document.getElementById('widthLabel').textContent = isMetric ? 'Room Width (m)' : 'Room Width (ft)';
+  });
+
+  setupToggle('rollToggle', 'roll', () => {
+    document.getElementById('customWidthField').style.display = state.roll === 'custom' ? 'block' : 'none';
+  });
+
+  setupToggle('wasteToggle', 'waste', () => {});
+
+  ['roomLength', 'roomWidth', 'customWidth'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculate);
+  });
+
+  function calculate() {
+    const isMetric = state.unit === 'm';
+    const length = parseFloat(document.getElementById('roomLength').value) || 0;
+    const width = parseFloat(document.getElementById('roomWidth').value) || 0;
+    const rollWidthM = state.roll === 'custom'
+      ? (parseFloat(document.getElementById('customWidth').value) || 0)
+      : state.roll;
+
+    const roomAreaSelected = length * width;
+    let roomAreaM2, roomAreaFt2;
+    if (isMetric) {
+      roomAreaM2 = roomAreaSelected;
+      roomAreaFt2 = roomAreaSelected * 10.7639;
+    } else {
+      roomAreaFt2 = roomAreaSelected;
+      roomAreaM2 = roomAreaSelected / 10.7639;
+    }
+
+    const areaWithWasteM2 = roomAreaM2 * (1 + state.waste / 100);
+    const carpetLengthM = rollWidthM > 0 ? areaWithWasteM2 / rollWidthM : 0;
+    const squareYards = areaWithWasteM2 * 1.19599;
+
+    document.getElementById('roomAreaMain').textContent = (isMetric ? roomAreaM2 : roomAreaFt2).toFixed(1) + (isMetric ? ' m²' : ' ft²');
+    document.getElementById('roomAreaSub').textContent = '≈ ' + (isMetric ? roomAreaFt2 : roomAreaM2).toFixed(1) + (isMetric ? ' ft²' : ' m²');
+    document.getElementById('areaWithWaste').textContent = (isMetric ? areaWithWasteM2 : areaWithWasteM2 * 10.7639).toFixed(1) + (isMetric ? ' m²' : ' ft²');
+    document.getElementById('carpetLength').textContent = carpetLengthM.toFixed(1) + ' linear m';
+    document.getElementById('rollWidthDisplay').textContent = rollWidthM + ' m';
+    document.getElementById('squareYards').textContent = squareYards.toFixed(1) + ' yd²';
+  }
+
+  function shareResults() {
+    const text = `My carpet estimate: ${document.getElementById('roomAreaMain').textContent} room, needs ${document.getElementById('carpetLength').textContent} of carpet — calculated with Biophilia Pro Studio's Carpet Calculator.`;
+    if (navigator.share) {
+      navigator.share({ title: 'My Carpet Estimate', text: text });
+    } else {
+      navigator.clipboard.writeText(text).then(() => alert('Results copied to clipboard!'));
+    }
+  }
+
+  calculate();
+</script>
+
+</body>
+</html>
